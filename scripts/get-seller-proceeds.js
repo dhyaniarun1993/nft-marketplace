@@ -9,7 +9,7 @@ async function getProceeds() {
     const [deployer, owner] = accounts
 
     const nftMarketplaceContract = await ethers.getContract("NftMarketplace")
-    const basicNftContract = await ethers.getContract("BasicNft")
+    const nftContract = await ethers.getContract("GeneralNft721")
 
     const proceeds = await nftMarketplaceContract.getProceeds(owner.address)
 

@@ -11,18 +11,18 @@ async function cancelListing() {
     const [deployer, owner] = accounts
 
     const nftMarketplaceContract = await ethers.getContract("NftMarketplace")
-    const basicNftContract = await ethers.getContract("BasicNft")
+    const nftContract = await ethers.getContract("GeneralNft721")
 
     const tx = await nftMarketplaceContract
         .connect(owner)
-        .cancelListing(basicNftContract.address, TOKEN_ID)
+        .cancelListing(nftContract.address, TOKEN_ID)
     const cancelTxReceipt = await tx.wait(1)
     const args = cancelTxReceipt.events[0].args
     console.log(`NFT with ID ${TOKEN_ID} Canceled...`)
 
     // Check cancellation.
     const canceledListing = await nftMarketplaceContract.getListing(
-        basicNftContract.address,
+        nftContract.address,
         TOKEN_ID
     )
     console.log("Seller is Zero Address (i.e no one!)", canceledListing.seller)

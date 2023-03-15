@@ -13,21 +13,21 @@ async function buyItem() {
     }
 
     const nftMarketplaceContract = await ethers.getContract("NftMarketplace")
-    const basicNftContract = await ethers.getContract("BasicNft")
+    const nftContract = await ethers.getContract("GeneralNft721")
 
     const listing = await nftMarketplaceContract
-       .getListing(basicNftContract.address, TOKEN_ID)
+       .getListing(nftContract.address, TOKEN_ID)
 
     const price = listing.price.toString()
     const tx = await nftMarketplaceContract
         .connect(buyer1)
-        .buyItem(basicNftContract.address, TOKEN_ID, {
+        .buyItem(nftContract.address, TOKEN_ID, {
             value: price,
         })
     await tx.wait(1)
     console.log("NFT Bought!")
 
-    const newOwner = await basicNftContract.ownerOf(TOKEN_ID)
+    const newOwner = await nftContract.ownerOf(TOKEN_ID)
     console.log(`New owner of Token ID ${TOKEN_ID} is ${newOwner} with identity of ${IDENTITIES[newOwner]}`)
 }
 

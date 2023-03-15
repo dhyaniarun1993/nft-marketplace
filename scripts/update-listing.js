@@ -16,12 +16,12 @@ async function updateListing() {
     }
 
     const nftMarketplaceContract = await ethers.getContract("NftMarketplace")
-    const basicNftContract = await ethers.getContract("BasicNft")
+    const nftContract = await ethers.getContract("GeneralNft721")
 
     console.log(`Updating listing for token ID ${TOKEN_ID} with a new price`)
     const updateTx = await nftMarketplaceContract
         .connect(owner)
-        .updateListing(basicNftContract.address, TOKEN_ID, ethers.utils.parseEther("0.5"))
+        .updateListing(nftContract.address, TOKEN_ID, ethers.utils.parseEther("0.5"))
 
     const updateTxReceipt = await updateTx.wait(1)
     const updatedPrice = updateTxReceipt.events[0].args.price
@@ -29,7 +29,7 @@ async function updateListing() {
 
     // Confirm the listing is updated.
     const updatedListing = await nftMarketplaceContract.getListing(
-        basicNftContract.address,
+        nftContract.address,
         TOKEN_ID
     )
     console.log(`Updated listing has price of ${updatedListing.price.toString()}`)
